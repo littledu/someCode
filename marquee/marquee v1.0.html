@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title></title>
+<style type="text/css">
+    *{ margin:0; padding:0;}
+    body{ padding:20px;}
+    img{ border:0; display:block;}
+    a{ text-decoration:none;}
+    .marquee,.marquee1,.marquee2{ margin:10px;}
+    .marquee .container,.marquee1 .container{ width:315px; height:100px; overflow:hidden;}
+    .marquee1{ position:relative; width:315px; height:100px; border:4px solid #05a; padding:10px 40px;}
+    .marquee .Jmarquee-content,.marquee1 .Jmarquee1-content{ float:left;}  /*左右滚动时必需设置float:left; 或 display:inline-block; *display:inline; 等实现包裹的属性
+    考虑是否在JS里设置，让使用更简单*/
+    .marquee .container a,.marquee1 .container a{ float:left; margin-right:5px;}
+    .marquee-prev,.marquee-next{ display:block; position:absolute; width:30px; line-height:30px; text-align:center; cursor:pointer; background:#ccc; top:45px; text-decoration:none;}
+    .marquee-prev{ left:5px;}
+    .marquee-next{ right:5px;}
+
+    .marquee2{ width:315px; height:110px; position:relative;}
+    .marquee2 .container{ width:315px; height:110px; overflow:hidden;}
+    .marquee2 .container a{ margin:5px 5px 5px 0; float:left;}
+
+    .marquee3{ border:1px solid #f60; margin-bottom:10px; padding:5px 0; width:320px; }
+    .marquee3 .container{ width:320px; height:18px; overflow:hidden; }
+    .marquee3 .Jmarquee3-content{ float:left;}
+    .marquee3 .container a{ float:left;}
+    .marquee-up .container a{ float:clear;}
+</style>
+</head>
+<body>
+    <pre>
+ /*
+ * @components Marquee 无缝滚动
+ * @author duguangmin  
+ * @desc 用于图片，文字等左右上下不间断滚动；
+         支持左右按钮单击改变方向，长按加速等功能；
+ * @property
+ * 		id：{String}：无缝滚动的入口标识
+ *
+ * 	    direction: {String} (可选) ["left","right","up","down"]: 方向参数。默认为'left';
+ * 		        eg: new Marquee({marqueeId:'idString',direction:'left'});
+ * 		step: {Number} (可选) 移动的步长，值越大，则滚动速度越快。默认为1；
+ *              eg: new Marquee({marqueeId:'idString',direction:'left',step:2});
+ * 		speed: {Number} (可选) 移动的速度，值越小，则滚动速度越快。默认为30；
+ *              eg: new Marquee({marqueeId:'idString',direction:'left',step:2,speed:100});
+ * 		control: {Number} (可选) 左右按钮控制。默认没有左右方向按钮,添加参数值不为0或false的值则启用控制按钮功能；注：需自己添加按钮结构代码，详见事例；
+ *              eg: new Marquee({marqueeId:'idString',direction:'left',step:2,speed:100,control:true});
+ * 
+ * @version v1.0
+ *
+ */
+    </pre>
+
+    <h3>示例结构：</h3>
+        <pre>
+        
+            &lt;div id="Jmarquee" class="marquee"&gt;
+
+               &lt;a href="javascript:;" class="marquee-prev" id="Jmarquee-prev"&gt;左箭头&lt;/a&gt;   
+
+               &lt;div class="container"&gt;
+                  content area
+               &lt;/div&gt;
+
+               &lt;a href="javascript:;" class="marquee-next" id="Jmarquee-next"&gt;右箭头&lt;/a&gt;
+
+            &lt;/div&gt;
+        
+        <p style="color:red;">注意：左右箭头可选，需要时手动添加，也可添加在除了container内的任何地方，只需正确配置id，如这里的id为Jmarquee，则这里的左箭头ID为Jmarquee-prev,右箭头ID为Jmarquee-next</p>
+        </pre>
+
+    <h3>示例样式：</h3>
+        <pre>
+            .marquee{}
+            .marquee .container{ width:320px; height:100px; overflow:hidden;/*滚动区域大小，必需*/ /*不在这里设置padding或margin，可在.marquee设置*/}
+            .marquee-content{ float:left;}  /*高度注意：横向滚动时必需设置此样式，样式名是id+ -content，如这里的id为Jmarquee，则这里的样式名就为Jmarquee-content*/
+        </pre>
+    
+
+    <h3>1.左滚动   new Marquee({id:'Jmarquee'});</h3>
+    <div id="Jmarquee" class="marquee">
+        <div class="container">
+            <a href="#"><img src="http://www.placehold.it/100x100" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/a60" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/cf0" width="100" height="100" /></a>
+        </div>
+    </div>
+    
+    <h3>2.右滚动+左右控制按钮    new Marquee({id:'Jmarquee1',direction:'right',step:2,speed:50,control:true});</h3>
+    <div id="Jmarquee1" class="marquee1">
+        <a href="javascript:;" class="marquee-prev" id="Jmarquee1-prev">&lt;</a> <!--按钮可为除了div外的任意标签，也可以任意位置-->
+        <div class="container">
+            <a href="#"><img src="http://www.placehold.it/100x100" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/a60" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/cf0" width="100" height="100" /></a>
+        </div>
+        <a href="javascript:;" class="marquee-next" id="Jmarquee1-next">&gt;</a>
+    </div>
+
+    <h3>3.向下滚动   new Marquee({id:'Jmarquee2',direction:'down',step:1,speed:30});  向上只需改变下参数direction:'up'即可</h3>
+    <div id="Jmarquee2" class="marquee2">
+        <div class="container">
+            <a href="#"><img src="http://www.placehold.it/100x100" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/a60" width="100" height="100" /></a>
+            <a href="#"><img src="http://www.placehold.it/100x100/cf0" width="100" height="100" /></a>
+        </div>
+    </div>
+
+    <div id="Jmarquee3" class="marquee3">
+        <div class="container">
+            <a href="#">这是一段向左滚动的文字，滚啊滚啊滚啊……</a>
+        </div>
+    </div>
+
+    <div><input type="button" value="向左" id="toLeft"/> <input type="button" value="暂停" id="toggle" /> <input type="button" value="向右" id="toRight" />
+    <input type="button" value="向上" id="toUp" /> <input type="button" value="向下" id="toDown" /></div>
+    
+    <script type="text/javascript" src="marquee.js"></script>
+    <script type="text/javascript">
+        
+        window.onload = function(){
+
+            var Marquee1 = new Marquee({id:'Jmarquee'});
+
+
+            var Marquee2 = new Marquee({id:'Jmarquee1',direction:'right',step:1,speed:30,control:true});
+
+
+            var Marquee3 = new Marquee({id:'Jmarquee2',direction:'down',step:1,speed:30});
+
+
+            var m = new Marquee({id:'Jmarquee3'});
+
+
+            var toLeft = document.getElementById('toLeft');
+            var toggle = document.getElementById('toggle');
+            var toRight = document.getElementById('toRight');
+            var toUp = document.getElementById('toUp');
+            var toDown = document.getElementById('toDown');
+
+            toLeft.onclick = function(){
+                m.marquee.className = 'marquee3';
+                m.scrollContent.style.width = '640px';
+                m.direction = 'left';
+            }
+
+            var flag = true;
+            toggle.onclick = function(){
+                if(flag){
+                    m.stop();
+                    flag = false;
+                }else{
+                    m.start();
+                    flag = true;
+                }  
+                this.value = this.value == '暂停' ? '开始' : '暂停';
+            }
+
+            toRight.onclick = function(){
+                m.marquee.className = 'marquee3';
+                m.scrollContent.style.width = '640px';
+                m.direction = 'right';    
+            }
+
+            toUp.onclick = function(){
+                m.marquee.className += ' marquee-up';
+                m.scrollContent.style.width = '320px';
+                m.direction = 'up';
+            }
+
+            toDown .onclick = function(){
+                m.marquee.className += ' marquee-up';
+                m.scrollContent.style.width = '320px';
+                m.direction = 'down';
+            }
+            
+        }
+    </script>
+</body>
+</html>

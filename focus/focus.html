@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="gb2312" />
+    <title></title>
+    <style type="text/css">
+        *{ margin:0; padding:0;}
+        ul{ list-style-type:none;}
+        img{ border:0 none; display:block; vertical-align:middle;}
+        body{ background:#000;}
+
+        .focus{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:8px solid #fff; border-radius:5px; position:relative;}
+        .focus-content{ width:1960px; position:absolute; left:0; top:0;}
+        .focus-content:after,.focus-btn:after{content:"\20";clear:both;height:0;display:block;overflow:hidden;}
+        .focus-content li{ float:left; zoom:1; position:absolute; top:0; left:0;}
+        .focus-btn{ position:absolute; right:20px; bottom:10px;}
+        .focus-btn li{ float:left; zoom:1; width:20px; height:20px; line-height:20px; border-radius:20px; background:#f90; color:#fff; text-align:center; cursor:pointer; margin-right:5px;}
+        .focus-btn li.current{ font-weight:bold; background:#f60;}
+
+        .focus1{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:8px solid #fff; border-radius:5px; position:relative;}
+        .focus1-content{ width:1960px; position:absolute; left:0; top:0;}
+        .focus1-content:after,.focus1-btn:after{content:"\20";clear:both;height:0;display:block;overflow:hidden;}
+        .focus1-content li{ float:left; zoom:1; overflow:hidden; width:490px; height:170px;}
+        .focus1-btn{ position:absolute; right:20px; bottom:10px;}
+        .focus1-btn li{ float:left; zoom:1; width:20px; height:20px; line-height:20px; border-radius:20px; background:#f90; color:#fff; text-align:center; cursor:pointer; margin-right:5px;}
+        .focus1-btn li.current{ font-weight:bold; background:#f60;}
+
+        .focus2{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:8px solid #fff; border-radius:5px; position:relative;}
+        .focus2-content{ width:1960px; position:absolute; left:0; top:0;}
+        .focus2-content:after,.focus2-btn:after{content:"\20";clear:both;height:0;display:block;overflow:hidden;}
+        .focus2-content li{ zoom:1; width:490px; height:170px; overflow:hidden;}
+        .focus2-btn{ position:absolute; right:20px; bottom:10px;}
+        .focus2-btn li{ float:left; zoom:1; width:20px; height:20px; line-height:20px; border-radius:20px; background:#f90; color:#fff; text-align:center; cursor:pointer; margin-right:5px;}
+        .focus2-btn li.current{ font-weight:bold; background:#f60;}
+
+        .focus3{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:8px solid #fff; border-radius:5px; position:relative;}
+        .focus3-content{ width:1960px; position:absolute; left:0; top:0;}
+        .focus3-content:after,.focus2-btn:after{content:"\20";clear:both;height:0;display:block;overflow:hidden;}
+        .focus3-content li{ zoom:1; width:490px; height:170px; overflow:hidden; display:none;}
+        .focus3-btn{ position:absolute; right:20px; bottom:10px;}
+        .focus3-btn li{ float:left; zoom:1; width:20px; height:20px; line-height:20px; border-radius:20px; background:#f90; color:#fff; text-align:center; cursor:pointer; margin-right:5px;}
+        .focus3-btn li.current{ font-weight:bold; background:#f60;}
+
+        .focus4{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:8px solid #fff; border-radius:5px; position:relative;}
+        .focus4-content{ width:1960px; position:absolute; left:0; top:0;}
+        .focus4-content:after,.focus2-btn:after{content:"\20";clear:both;height:0;display:block;overflow:hidden;}
+        .focus4-content li{ float:left; zoom:1; width:490px; height:170px; overflow:hidden;}
+        .focus4-btn{ position:absolute; right:20px; bottom:10px;}
+        .focus4-btn li{ float:left; zoom:1; width:20px; height:20px; line-height:20px; border-radius:20px; background:#f90; color:#fff; text-align:center; cursor:pointer; margin-right:5px;}
+        .focus4-btn li.current{ font-weight:bold; background:#f60;}
+        .focus4-prev,.focus4-next{ width:40px; height:20px; line-height:16px; text-align:right; cursor:pointer; position:absolute; top:45%; border-radius:20px; background:#f90; color:#fff;
+            padding-right:8px; opacity:0.7; filter:alpha(opacity=70);}
+        .focus4-prev{ left:-8px;}
+        .focus4-next{ right:-8px;}
+
+        .focus5{ width:490px; height:170px; overflow:hidden; margin:20px auto; border:1px solid #ccc;}
+        .focus5-btn{  border-bottom:1px solid #ccc;}
+        .focus5-btn:after{ content:"\20"; clear:both; height:0; display:block; overflow:hidden;}
+        .focus5-btn li{ float:left; width:80px; line-height:30px; text-align:center; color:#fff; border:1px solid #ccc; cursor:pointer; zoom:1;}
+        .focus5-content li{ display:none; color:#fff; text-align:center; line-height:140px;}
+
+        .box{ width:50%; float:left; text-align:center}
+
+
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="focus" id="Jfocus">
+        <ul class="focus-content" id="Jfocus-content">
+            <li><img src="1.jpg" width="490" height="170" /></li>
+            <li><img src="2.jpg" width="490" height="170" /></li>
+            <li><img src="3.jpg" width="490" height="170" /></li>
+            <li><img src="4.jpg" width="490" height="170" /></li>
+        </ul>
+        <ul class="focus-btn" id="Jfocus-btn">
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="focus1" id="Jfocus1">
+        <ul class="focus1-content" id="Jfocus1-content">
+            <li><img src="1.jpg" width="490" height="170" /></li>
+            <li><img src="2.jpg" width="490" height="170" /></li>
+            <li><img src="3.jpg" width="490" height="170" /></li>
+            <li><img src="4.jpg" width="490" height="170" /></li>
+        </ul>
+        <ul class="focus1-btn" id="Jfocus1-btn">
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="focus2" id="Jfocus2">
+        <ul class="focus2-content" id="Jfocus2-content">
+            <li><img src="1.jpg" width="490" height="170" /></li>
+            <li><img src="2.jpg" width="490" height="170" /></li>
+            <li><img src="3.jpg" width="490" height="170" /></li>
+            <li><img src="4.jpg" width="490" height="170" /></li>
+        </ul>
+        <ul class="focus2-btn" id="Jfocus2-btn">
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="focus3" id="Jfocus3">
+        <ul class="focus3-content" id="Jfocus3-content">
+            <li style="display:block;"><img src="1.jpg" width="490" height="170" /></li>
+            <li><img src="2.jpg" width="490" height="170" /></li>
+            <li><img src="3.jpg" width="490" height="170" /></li>
+            <li><img src="4.jpg" width="490" height="170" /></li>
+        </ul>
+        <ul class="focus3-btn" id="Jfocus3-btn">
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+</div>
+
+<div class="box">
+    <div class="focus4" id="Jfocus4">
+        <ul class="focus4-content" id="Jfocus4-content">
+            <li><img src="1.jpg" width="490" height="170" /></li>
+            <li><img src="2.jpg" width="490" height="170" /></li>
+            <li><img src="3.jpg" width="490" height="170" /></li>
+            <li><img src="4.jpg" width="490" height="170" /></li>
+        </ul>
+        <ul class="focus4-btn" id="Jfocus4-btn">
+            <li class="current">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <span class="focus4-prev" id="Jfocus4-prev">prev</span>
+        <span class="focus4-next" id="Jfocus4-next">next</span>
+    </div>
+</div>
+
+<div class="box">
+    <div class="focus5" id="Jfocus5">
+        <ul class="focus5-btn" id="Jfocus5-btn">
+            <li>tab1</li>
+            <li>tab2</li>
+            <li>tab3</li>
+        </ul>
+        <ul class="focus5-content" id="Jfocus5-content">
+            <li style="display:block;">content1</li>
+            <li>content2</li>
+            <li>content3</li>
+        </ul>
+    </div>
+</div>
+
+    <script src="focus.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        new Focus({id:'Jfocus',effect:'fade',autoPlay:true});
+        new Focus({id:'Jfocus1',effect:'slide',scrollSize:490,autoPlay:true});
+        new Focus({id:'Jfocus2',effect:'slide', direction:'top', scrollSize:170,autoPlay:true});
+        new Focus({id:'Jfocus3',autoPlay:true});
+        new Focus({id:'Jfocus4',effect:'slide',scrollSize:490,control:true});
+        new Focus({id:'Jfocus5'});
+    </script>
+</body>
+</html> 

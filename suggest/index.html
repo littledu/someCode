@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title></title>
+<style type="text/css">
+    *{ margin:0; padding:0;}
+    body{ padding:200px;}
+    ul{ list-style-type:none;}
+    input{margin-bottom:50px;}
+    .search-hover{ background:#f60;}
+    .search-result-list li{ cursor:pointer; line-height:24px;}
+    .search-close-div{ text-align:right; padding-right:5px;}
+    .search-close-div span{ cursor: pointer; font-size:12px;}
+</style>
+</head>
+<body>
+<form method="get" action="form.php" target="_blank">
+<input type="text" id="searchInput" value="请输入你要查找的关键字" autocomplete="off"  />
+<input type="submit" value="搜 索" />
+</form>
+
+
+<script type="text/javascript" src="searchSuggest.js"></script>
+<script type="text/javascript">
+    new SearchSuggest({target:'searchInput',serverUrl:'form.php',closeBtn:true,useJs:false});
+</script>
+</body>
+</html>
