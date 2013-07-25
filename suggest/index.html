@@ -8,6 +8,7 @@
     body{ padding:200px;}
     ul{ list-style-type:none;}
     input{margin-bottom:50px;}
+    .search-result-frame{ border: 1px solid #ccc; }
     .search-hover{ background:#f60;}
     .search-result-list li{ cursor:pointer; line-height:24px;}
     .search-close-div{ text-align:right; padding-right:5px;}
@@ -15,15 +16,15 @@
 </style>
 </head>
 <body>
-<form method="get" action="form.php" target="_blank">
-<input type="text" id="searchInput" value="请输入你要查找的关键字" autocomplete="off"  />
+<form method="get" action="" target="_blank">
+<input type="text" id="searchInput" value="" autocomplete="off"  />
 <input type="submit" value="搜 索" />
 </form>
 
 
-<script type="text/javascript" src="searchSuggest.js"></script>
+<script type="text/javascript" src="suggestSearch.js"></script>
 <script type="text/javascript">
-    new SearchSuggest({target:'searchInput',serverUrl:'form.php',closeBtn:true,useJs:false});
+    new SearchSuggest({target:'searchInput',serverUrl:'dtSearch.php',closeBtn:true,useJs:false});
 </script>
 </body>
 </html>

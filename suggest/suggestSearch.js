@@ -1,22 +1,18 @@
 /*
  * @components SearchSuggest  input搜索联想组件
- * @author littledu  http://www.cnblogs/littledu   http://www.littledu.in
+ * @author duguangmin
  * @desc 用于类似google搜索联想结果
  * @调用方式   new SearchSuggest({
  *                 target: 'searchInput',
  *                 serverUrl: 'form.php',
- *                 useJs: false,
  *                 resultNum: 10,
  *                 frameWidth: 360,
- *                 closeBtn: true,
- *                 //toggleFocus: true  已废弃，有等商榷
+ *                 closeBtn: true
  *             });
  * @property
  *      target {String || element} (必需) 搜索框的标识
  *
  *      serverUrl {String} (必需) 请求的链接
- *
- *      useJs {Boolean} (可选) [false,true]，默认为false，是ajax请求；true为回调请求
  *
  *      resultNum {Number} (可选) 联想结果的列表长度，默认为10
  *      
@@ -24,7 +20,6 @@
  *
  *      closeBtn {Boolean} (可选) 是否有关闭按钮，默认为false
  *              
- *      toggleFocus {Boolean} (可选) 是否作单击搜索框的隐藏默认文字交互，默认为true
  *              
  * @version v1.0
  *
@@ -40,11 +35,9 @@ SearchSuggest.prototype = {
         var self = this;
         this.target = typeof c.target === 'string' ? document.getElementById(c.target) : c.target;
         this.serverUrl = c.serverUrl;
-        this.useJs = c.useJs || false;
         this.resultNum = c.resultNum || 10;
         this.frameWidth = c.frameWidth || 0;
         this.closeBtn = c.closeBtn || false;
-        //this.toggleFocus = c.toggleFocus || false;
 
         this.resultFrame = null;
         this.resultList = null;
@@ -62,23 +55,16 @@ SearchSuggest.prototype = {
         //创建联想结果浮动层
         this._createFrame();
 
-        this.target.onclick = function(){
-            //if(self.toggleFocus){
-                (self.target.value == self.target.defaultValue) && (self.target.value = '');
-            //}
+        this.addEvent( this.target, 'click', function( e ){
+            e = e || window.event;
             self.play();
-        };
+            e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+        });
 
-        this.target.onblur = function(){
-            //if(self.toggleFocus){
-                (self.target.value == '' || self.target.value == self.target.defaultValue) && (self.target.value = self.target.defaultValue);
-            //};
-        };
-
-        document.body.onclick = function(){
+        this.addEvent( document.body, 'click', function(){
             self.hide();
             self.currentIndex = -1;  //用于重置键盘上下选择焦点
-        };
+        });
 
         //点击关闭
         if(this.closeBtn){
@@ -87,7 +73,7 @@ SearchSuggest.prototype = {
             }
         }
 
-        this.target.onkeyup = function(e){
+        this.addEvent( this.target, 'keyup', function( e ){
             var key = e ? e.keyCode : window.event.keyCode;
             
             switch(key){
@@ -103,8 +89,13 @@ SearchSuggest.prototype = {
                 default : 
                     self.play();
             }
-            
-        }
+        });
+
+        //层定位方法
+        this.addEvent( window, 'resize', function(){
+            self._setFramePosition();
+        });
+
     },
     //创建联想结果层方法
     _createFrame: function(){
@@ -132,19 +123,18 @@ SearchSuggest.prototype = {
     _setFramePosition: function(){
         var framePosL = this.target.getBoundingClientRect()['left'];
         var framePosT = this.target.getBoundingClientRect()['top'] + this.target.offsetHeight;
-        var frameWidth = this.frameWidth || this.target.offsetWidth-2; //减2是减掉2像素border
-
-        this.resultFrame.style.cssText = 'position:absolute; border:1px solid #ccc; border-top:none; display:none; top:'+framePosT+'px;left:'+framePosL+'px; width:'+frameWidth+'px;';
+        var frameWidth = this.frameWidth || this.target.offsetWidth - 2; //减2是减掉2像素border
+        this.resultFrame.style.cssText = 'position:absolute; border-top:none; display:none; top:'+framePosT+'px;left:'+framePosL+'px; width:'+frameWidth+'px;';
     },
     //启动方法
     play: function(){
         var value = this.target.value;
+        this.key = value;
         if(value == ''){
             this.hide();
             return false;
         }
-        var f = this.useJs ? this._jsRequest : this._ajaxRequest;
-        f.call(this,value,this._toggle);
+        this._ajaxRequest.call(this,value,this._toggle);
     },
     _hover: function(index,isSelect){
         var self = this;
@@ -168,33 +158,32 @@ SearchSuggest.prototype = {
                 };
 
                 list[i].onclick = function(){
-                    self.target.value = this.innerHTML;  //有待商榷，当li里的内容不止是结果，还有其他时，也会被一并获取，具体结构具体分析
+                    self.target.value = this.getAttribute( 'data-key');
                     self.hide();
 
                     //当点击结果时，立即提交
                     var formElement = self.target.parentNode;
-                    while(formElement.tagName == 'FORM'){
-                        formElement.submit();
+                    while( formElement.tagName != 'BODY' && formElement.tagName != 'FORM' ){
                         formElement = formElement.parentNode;
                     }
+                    formElement.submit();
                 }
             }
 
             if(isSelect){
                 clearClass();
 
-                this.target.value = list[index].innerHTML;
-                list[index].className = 'search-hover';
-
-                //键盘上下箭头循环选择
-                if(this.currentIndex != -1 && list[index].index == 0){
-                    this.currentIndex = len;
-                }else if(this.currentIndex != len && list[index].index >= len-1){
-                    this.currentIndex = -1;
-                }else{
-                    this.currentIndex= list[index].index;
+                if( index >= len ){
+                    index = index - len;
                 }
 
+                if( index < 0 ){
+                    index = len - 1;
+                }
+
+                this.target.value = list[index].getAttribute( 'data-key');
+                list[index].className = 'search-hover';
+                this.currentIndex = list[index].index;
             }
         }
     },
@@ -215,21 +204,6 @@ SearchSuggest.prototype = {
     hide: function(){
         this.resultFrame.style.display = 'none';
     },
-    //回调发送接收请求方法
-    _jsRequest: function(value,callback){
-        var self = this;
-        //http://s.xxx.com.cn/SearchSuggest_online.php?q=d&jsCallBack=searchResult
-        var url = this.serverUrl+'?q='+value+'&app=cp&jsCallback=searchResult';
-        var scriptElement = document.createElement('script');
-        scriptElement.type = 'text/javascript';
-        scriptElement.src = url;
-        document.getElementsByTagName('head')[0].appendChild(scriptElement);
-
-        //全局回调函数，接收返回的数据
-        window.searchResult = function(data,callback){
-            self._requestCallback(data,callback);
-        }
-    },
     //ajax请求接收方法
     _ajaxRequest: function(value,callback){
         var self = this;
@@ -246,15 +220,21 @@ SearchSuggest.prototype = {
         data = typeof data == 'object' ? data : eval('('+data+')');
 
         var s = '';
-        var len = this.resultNum > len ? len : this.resultNum;
+        var key = this.key;
+        var len = this.resultNum;
         var num = 0;
+        var success = this.success;
 
-        for(var i in data){
-            if(num++ == len) break;
-            s += '<li>'+data[i]+'</li>';
+        for( var i in data ){
+            num += 1;
+            if( num > len ) break;
+            s += '<li data-key="'+key + data[i]+'">'+ key + '<strong>' + data[i] +'</strong></li>';
         }
 
         this.resultList.innerHTML = s;
         callback && callback.call(this);
+    },
+    addEvent: function( ele, type, fnHandler ){
+        return ele.addEventListener ? ele.addEventListener(type,fnHandler,false) : ele.attachEvent('on' + type,fnHandler);
     }
 }
